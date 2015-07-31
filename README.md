@@ -1,25 +1,8 @@
-# Ember-cli-test-interactions
+# ember-cli-test-interactions
+A set of declarative test helpers for acceptance testing.
 
-This README outlines the details of collaborating on this Ember addon.
+## Legal ##
 
-## Installation
+[DockYard](http://dockyard.com/ember-consulting), Inc. &copy; 2015
 
-* `git clone` this repository
-* `npm install`
-* `bower install`
-
-## Running
-
-* `ember server`
-* Visit your app at http://localhost:4200.
-
-## Running Tests
-
-* `ember test`
-* `ember test --server`
-
-## Building
-
-* `ember build`
-
-For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
+[@dockyard](http://twitter.com/dockyard)
