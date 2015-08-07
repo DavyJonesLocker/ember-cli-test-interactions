@@ -10,5 +10,6 @@ export function findLabelByText(text) {
   if (label.length > 1) {
     label = $(label.toArray().findProperty('innerText', text));
   }
+
   return label;
 }

@@ -6,6 +6,14 @@ import {
 
 const { isEmpty } = Ember;
 
+export function checkByLabel(labelText) {
+  return () => {
+    const labelForInput = findLabelByText(labelText);
+
+    click(labelForInput);
+  }
+}
+
 export function clickButton(text) {
   return function() {
     let button = find(`button:contains('${text}')`);
@@ -24,6 +32,15 @@ export function clickLink(linkText) {
   };
 }
 
+export function clickRadioByLabel(label) {
+  return function() {
+    const labelForInput = findLabelByText(label);
+    const input = findInputByLabel(labelForInput);
+
+    click(input);
+  }
+}
+
 export function fillInByLabel(label, value) {
   return function() {
     const labelForInput = findLabelByText(label);
@@ -32,4 +49,14 @@ export function fillInByLabel(label, value) {
     fillIn(input, value);
     return find(input).focusout();
   };
+}
+
+export  function selectByLabel(label, optionText) {
+  return () => {
+    const selectId = findWithAssert(`label:contains('${label}')`).attr('for');
+    const option = findWithAssert(`#${selectId} option:contains('${optionText}')`);
+
+    fillIn(`#${selectId}`, option.attr('value'))
+    .then(() => find(`#${selectId}`).trigger('focusout'));
+  }
 }

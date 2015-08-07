@@ -23,16 +23,30 @@ module('Integration: Finders', {
   }
 });
 
-test('findInputByLabel finds the input by the label text', function(assert) {
+test('#findLabelByText finds the label by the label text', function(assert) {
+  assert.expect(1);
+
+  let label;
+
+  visit('/');
+  andThen(function() {
+    label = findLabelByText('Email');
+
+    assert.equal('Email', label.text(), 'expected John Doe to be the input value');
+  });
+});
+
+test('#findInputByLabel finds the input by the label text', function(assert) {
+  assert.expect(1);
+
   let label;
   let input;
-
-  assert.expect(1);
 
   visit('/');
   andThen(function() {
     label = findLabelByText('Name');
     input = findInputByLabel(label);
+
     assert.equal('John Doe', input.val(), 'expected John Doe to be the input value');
   });
 });

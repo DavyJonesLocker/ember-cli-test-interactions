@@ -10,9 +10,12 @@ import {
 } from '../helpers/test-assertions';
 
 import {
+  checkByLabel,
   clickButton,
   clickLink,
-  fillInByLabel
+  clickRadioByLabel,
+  fillInByLabel,
+  selectByLabel
 } from '../helpers/interactions';
 
 let app;
@@ -21,6 +24,7 @@ const { run } = Ember;
 module('Acceptance: Interactions', {
   beforeEach() {
     app = startApp();
+    visit('/');
   },
 
   afterEach() {
@@ -28,20 +32,31 @@ module('Acceptance: Interactions', {
   }
 });
 
-test('clickButton finds a button by its text and clicks it', function(assert) {
-  assert.expect(2);
+test('#checkByLabel finds a checkbox and checks it', (assert) => {
+  andThen(checkByLabel('This is the second checkbox'));
+  andThen(() => {
+    const checkedInput = find('input:checked');
+    assert.equal('second_checkbox', checkedInput.val(), 'expected the second checkbox to be checked');
+  });
+});
 
-  visit('/');
+test('#clickButton finds a button element by its text and clicks it', function(assert) {
+  assert.expect(1);
+
   andThen(clickButton('First Target Button'));
   andThen(assertHasMessage(assert, 'First target button clicked'));
+});
+
+test('#clickButton finds an input of type button by its text and clicks it', function(assert) {
+  assert.expect(1);
+
   andThen(clickButton('Second Target Button'));
   andThen(assertHasMessage(assert, 'Second target button clicked'));
 });
 
-test('clickLink finds a link by its text and clicks it', function(assert) {
+test('#clickLink finds a link by its text and clicks it', function(assert) {
   assert.expect(1);
 
-  visit('/');
   andThen(clickLink('First link'));
   andThen(() => {
     const url =  currentURL();
@@ -49,13 +64,25 @@ test('clickLink finds a link by its text and clicks it', function(assert) {
   });
 });
 
-test('fillInByLabel enters text into an input corresponding to a label', function(assert) {
+test('#clickRadioByLabel adds checked attribute to corresponding input', (assert) => {
+  andThen(clickRadioByLabel('Label for first radio'));
+  andThen(() => {
+    const checkedInput = find('input:checked');
+    assert.equal('radio_1', checkedInput.val(), 'expected radio 1 to be checked');
+  });
+  andThen(clickRadioByLabel('Label for second radio'));
+  andThen(() => {
+    const checkedInput = find('input:checked');
+    assert.equal('radio_2', checkedInput.val(), 'expected radio 2 to be checked');
+  });
+});
+
+test('#fillInByLabel enters text into an input corresponding to a label', function(assert) {
   const targetInput = 'form input.node-2';
   const targetValue = 'Jane Doe';
 
   assert.expect(2);
 
-  visit('/');
   andThen(() => {
     const val = find(targetInput).val();
     assert.notEqual(val, targetValue, 'did not expect the input to contain the target value yet');
@@ -65,5 +92,13 @@ test('fillInByLabel enters text into an input corresponding to a label', functio
   andThen(() => {
     const val = find(targetInput).val();
     assert.equal(val, targetValue, 'expected the input to contain the target value');
+  });
+});
+
+test('#selectByLabel selects a dropdown option by label and option', (assert) => {
+  andThen(selectByLabel('Label for first select', 'Value 2'));
+  andThen(() => {
+    const selectedOption = find('option:selected');
+    assert.equal('value2', selectedOption.val(), 'expected option 2 to be selected');
   });
 });
