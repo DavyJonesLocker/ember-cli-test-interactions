@@ -35,8 +35,9 @@ module('Acceptance: Interactions', {
 test('#checkByLabel finds a checkbox and checks it', (assert) => {
   andThen(checkByLabel('This is the second checkbox'));
   andThen(() => {
-    const checkedInput = find('input:checked');
-    assert.equal('second_checkbox', checkedInput.val(), 'expected the second checkbox to be checked');
+    const checkedInput = find('#checkbox2:checked');
+
+    assert.equal('second_checkbox', checkedInput.val(), `expected the second checkbox to be checked but found ${checkedInput.val()}`);
   });
 });
 
