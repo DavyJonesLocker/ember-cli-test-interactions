@@ -6,9 +6,9 @@ import {
 import startApp from '../helpers/start-app';
 
 import {
-  findInputByLabel,
+  findByLabel,
   findLabelByText
-} from '../helpers/finders';
+} from '../helpers/finders/form-elements';
 
 let app;
 const { run } = Ember;
@@ -36,7 +36,7 @@ test('#findLabelByText finds the label by the label text', function(assert) {
   });
 });
 
-test('#findInputByLabel finds the input by the label text', function(assert) {
+test('#findByLabel finds the input by the label text', function(assert) {
   assert.expect(1);
 
   let label;
@@ -45,8 +45,23 @@ test('#findInputByLabel finds the input by the label text', function(assert) {
   visit('/');
   andThen(function() {
     label = findLabelByText('Name');
-    input = findInputByLabel(label);
+    input = findByLabel(label);
 
     assert.equal('John Doe', input.val(), 'expected John Doe to be the input value');
+  });
+});
+
+test('#findByLabel finds the select by the label text', function(assert) {
+  assert.expect(1);
+
+  let label;
+  let select;
+
+  visit('/');
+  andThen(function() {
+    label = findLabelByText('Label for second select');
+    select = findByLabel(label);
+
+    assert.equal('select_2', select.attr('name'), 'expected John Doe to be the input value');
   });
 });

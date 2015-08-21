@@ -18,14 +18,20 @@ fillIn(input, 'Jane Doe');
 ```
 
 ## Install
+Please note that this library has not reached version `1.0.0` and
+should not be considered stable. Breaking changes may be introduced with
+new versions in accordance with [Semantic
+Versioning 2.0.0](http://semver.org/). Because of this, we recommend
+that you explicitly specify the library version when installing.
+
 For ember-cli >= `0.2.3`:
 ```shell
-ember install ember-cli-test-interactions
+ember install ember-cli-test-interactions@x.x.x
 ```
 
 For ember-cli < `0.2.3`:
 ```shell
-ember install:addon ember-cli-test-interactions
+ember install:addon ember-cli-test-interactions@x.x.x
 ```
 
 ## Use
