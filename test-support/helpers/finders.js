@@ -13,3 +13,11 @@ export function findLabelByText(text) {
 
   return label;
 }
+
+export function findByAutoId(name) {
+  return find(`[data-auto-id="${name}"]`);
+}
+
+export function findInputByName(name) {
+  return findWithAssert(`input[name="${name}"]`);
+}

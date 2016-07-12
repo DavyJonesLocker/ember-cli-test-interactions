@@ -1,7 +1,9 @@
 import Ember from 'ember';
 import {
   findInputByLabel,
-  findLabelByText
+  findLabelByText,
+  findByAutoId,
+  findInputByName
 } from '../helpers/finders';
 
 const { isEmpty } = Ember;
@@ -59,4 +61,25 @@ export  function selectByLabel(label, optionText) {
     fillIn(`#${selectId}`, option.attr('value'))
     .then(() => find(`#${selectId}`).trigger('focusout'));
   }
+}
+
+export function clickByAutoId(autoId) {
+  andThen(() => {
+    let element = findByAutoId(autoId);
+    click(element);
+  });
+}
+
+export function fillInByAutoId(autoId, value) {
+  andThen(() => {
+    let element = findByAutoId(autoId);
+    fillIn(element, value);
+  });
+}
+
+export function fillInByName(name, value) {
+  andThen(() => {
+    let element = findInputByName(name);
+    fillIn(element, value);
+  });
 }

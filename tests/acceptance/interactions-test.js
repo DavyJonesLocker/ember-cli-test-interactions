@@ -15,7 +15,10 @@ import {
   clickLink,
   clickRadioByLabel,
   fillInByLabel,
-  selectByLabel
+  selectByLabel,
+  clickByAutoId,
+  fillInByAutoId,
+  fillInByName
 } from '../helpers/interactions';
 
 let app;
@@ -35,7 +38,7 @@ module('Acceptance: Interactions', {
 test('#checkByLabel finds a checkbox and checks it', (assert) => {
   andThen(checkByLabel('This is the second checkbox'));
   andThen(() => {
-    const checkedInput = find('#checkbox2:checked');
+    let checkedInput = find('#checkbox2:checked');
 
     assert.equal('second_checkbox', checkedInput.val(), `expected the second checkbox to be checked but found ${checkedInput.val()}`);
   });
@@ -60,46 +63,96 @@ test('#clickLink finds a link by its text and clicks it', function(assert) {
 
   andThen(clickLink('First link'));
   andThen(() => {
-    const url =  currentURL();
+    let url =  currentURL();
     assert.equal(url, '/first-link-target');
   });
 });
 
 test('#clickRadioByLabel adds checked attribute to corresponding input', (assert) => {
+  assert.expect(2);
+
   andThen(clickRadioByLabel('Label for first radio'));
   andThen(() => {
-    const checkedInput = find('input:checked');
+    let checkedInput = find('input:checked');
     assert.equal('radio_1', checkedInput.val(), 'expected radio 1 to be checked');
   });
   andThen(clickRadioByLabel('Label for second radio'));
   andThen(() => {
-    const checkedInput = find('input:checked');
+    let checkedInput = find('input:checked');
     assert.equal('radio_2', checkedInput.val(), 'expected radio 2 to be checked');
   });
 });
 
 test('#fillInByLabel enters text into an input corresponding to a label', function(assert) {
-  const targetInput = 'form input.node-2';
-  const targetValue = 'Jane Doe';
-
   assert.expect(2);
 
+  let targetInput = 'form input.node-2';
+  let targetValue = 'Jane Doe';
+
   andThen(() => {
-    const val = find(targetInput).val();
+    let val = find(targetInput).val();
     assert.notEqual(val, targetValue, 'did not expect the input to contain the target value yet');
   });
 
   andThen(fillInByLabel('Name', targetValue));
   andThen(() => {
-    const val = find(targetInput).val();
+    let val = find(targetInput).val();
     assert.equal(val, targetValue, 'expected the input to contain the target value');
   });
 });
 
 test('#selectByLabel selects a dropdown option by label and option', (assert) => {
+  assert.expect(1);
+
   andThen(selectByLabel('Label for first select', 'Value 2'));
   andThen(() => {
-    const selectedOption = find('option:selected');
+    let selectedOption = find('option:selected');
     assert.equal('value2', selectedOption.val(), 'expected option 2 to be selected');
+  });
+});
+
+
+test('#clickByAutoId finds a button by autoId and clicks it', (assert) => {
+  assert.expect(1);
+
+  clickByAutoId('first-target-btn');
+  andThen(assertHasMessage(assert, 'First target button clicked'));
+});
+
+test('#fillInByAutoId fills in input by autoId', (assert) => {
+  assert.expect(2);
+
+  let targetInput = 'form input.node-2';
+  let targetValue = 'Jane Doe';
+
+  andThen(() => {
+    let val = find(targetInput).val();
+    assert.notEqual(val, targetValue, 'did not expect the input to contain the target value yet');
+  });
+
+  fillInByAutoId('node-2-input', targetValue);
+
+  andThen(() => {
+    let val = find(targetInput).val();
+    assert.equal(val, targetValue, 'expected the input to contain the target value');
+  });
+});
+
+test('#fillInByName fills input by name', (assert) => {
+  assert.expect(2);
+
+  let targetInput = 'form input.node-2';
+  let targetValue = 'Jane Doe';
+
+  andThen(() => {
+    let val = find(targetInput).val();
+    assert.notEqual(val, targetValue, 'did not expect the input to contain the target value yet');
+  });
+
+  fillInByName('node-2-input', targetValue);
+
+  andThen(() => {
+    let val = find(targetInput).val();
+    assert.equal(val, targetValue, 'expect the input to have the target value');
   });
 });
