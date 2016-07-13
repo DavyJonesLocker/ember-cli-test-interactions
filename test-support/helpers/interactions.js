@@ -8,7 +8,7 @@ import {
 
 const { isEmpty } = Ember;
 
-export function checkByLabel(labelText) {
+export function clickByLabel(labelText) {
   return () => {
     const labelForInput = findLabelByText(labelText);
 
@@ -81,5 +81,14 @@ export function fillInByName(name, value) {
   andThen(() => {
     let element = findInputByName(name);
     fillIn(element, value);
+  });
+}
+
+export function chooseFromDropdown(optionText, selector = 'select') {
+  andThen(() => {
+    let option = findWithAssert(`option:contains('${optionText}')`);
+
+    fillIn(selector, option.attr('value'))
+    .then(() => find(selector).trigger('focusout'));
   });
 }
