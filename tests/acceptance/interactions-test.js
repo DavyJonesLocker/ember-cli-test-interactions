@@ -10,7 +10,7 @@ import {
 } from '../helpers/test-assertions';
 
 import {
-  checkByLabel,
+  clickByLabel,
   clickButton,
   clickLink,
   clickRadioByLabel,
@@ -18,7 +18,8 @@ import {
   selectByLabel,
   clickByAutoId,
   fillInByAutoId,
-  fillInByName
+  fillInByName,
+  chooseFromDropdown
 } from '../helpers/interactions';
 
 let app;
@@ -35,8 +36,8 @@ module('Acceptance: Interactions', {
   }
 });
 
-test('#checkByLabel finds a checkbox and checks it', (assert) => {
-  andThen(checkByLabel('This is the second checkbox'));
+test('#clickByLabel finds a checkbox and checks it', (assert) => {
+  andThen(clickByLabel('This is the second checkbox'));
   andThen(() => {
     let checkedInput = find('#checkbox2:checked');
 
@@ -154,5 +155,19 @@ test('#fillInByName fills input by name', (assert) => {
   andThen(() => {
     let val = find(targetInput).val();
     assert.equal(val, targetValue, 'expect the input to have the target value');
+  });
+});
+
+test('#chooseFromDropdown selects a dropdown option by option text', (assert) => {
+  assert.expect(2);
+
+  let selectedOption = find('option:selected');
+  assert.equal(selectedOption.val(), 'value1', 'expected selector to have the default value');
+
+  chooseFromDropdown('Value 2');
+
+  andThen(() => {
+    selectedOption = find('option:selected');
+    assert.equal(selectedOption.val(), 'value2', 'expected option 2 to be selected');
   });
 });
