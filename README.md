@@ -1,4 +1,7 @@
 # ember-cli-test-interactions
+
+**[ember-cli-test-interactions is built and maintained by DockYard, contact us for expert Ember.js consulting](https://dockyard.com/ember-consulting)**.
+
 Ember-cli Test Interactions is a library providing some convenience test
 helper functions. It allows for more expressive acceptance tests and
 cuts out alot of the boiler plate functions required to find elements
