@@ -1,8 +1,8 @@
 import Ember from 'ember';
 import {
-  findInputByLabel,
+  findByLabel,
   findLabelByText
-} from '../helpers/finders';
+} from '../helpers/finders/form-elements';
 
 const { isEmpty } = Ember;
 
@@ -15,7 +15,7 @@ export function checkByLabel(labelText) {
 }
 
 export function clickButton(text) {
-  return function() {
+  return () => {
     let button = find(`button:contains('${text}')`);
 
     if (isEmpty(button)) {
@@ -27,27 +27,27 @@ export function clickButton(text) {
 }
 
 export function clickLink(linkText) {
-  return function() {
+  return () => {
     click(`a:contains('${linkText}')`);
   };
 }
 
 export function clickRadioByLabel(label) {
-  return function() {
+  return () => {
     const labelForInput = findLabelByText(label);
-    const input = findInputByLabel(labelForInput);
+    const input = findByLabel(labelForInput);
 
     click(input);
   }
 }
 
 export function fillInByLabel(label, value) {
-  return function() {
+  return () => {
     const labelForInput = findLabelByText(label);
-    const input = findInputByLabel(labelForInput);
+    const inputOrTextarea = findByLabel(labelForInput);
 
-    fillIn(input, value);
-    return find(input).focusout();
+    fillIn(inputOrTextarea, value);
+    return find(inputOrTextarea).focusout();
   };
 }
 
