@@ -2,10 +2,10 @@
 <form class='node-4 post' id='post_1'>
   John Doe
   <label class='node-1' for='name'>Name</label>
-  <input class='node-2' id='name' value='John Doe'>
+  <input data-auto-id='node-2-input' class='node-2' id='name' value='John Doe' name='node-2-input'>
   <label class='node-3' for='email'>Email</label>
   <input class='node-5' id='email' value='john@example.com'>
-  <button {{action "buttonClicked" "First target button clicked"}}>First Target Button</button>
+  <button data-auto-id="first-target-btn" {{action "buttonClicked" "First target button clicked"}}>First Target Button</button>
 </form>
 
 <form class='node-6 post' id='post_2'>

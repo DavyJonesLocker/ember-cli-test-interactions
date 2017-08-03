@@ -7,7 +7,9 @@ import startApp from '../helpers/start-app';
 
 import {
   findInputByLabel,
-  findLabelByText
+  findLabelByText,
+  findInputByName,
+  findByAutoId
 } from '../helpers/finders';
 
 let app;
@@ -16,6 +18,7 @@ const { run } = Ember;
 module('Integration: Finders', {
   beforeEach() {
     app = startApp();
+    visit('/');
   },
 
   afterEach() {
@@ -28,7 +31,6 @@ test('#findLabelByText finds the label by the label text', function(assert) {
 
   let label;
 
-  visit('/');
   andThen(function() {
     label = findLabelByText('Email');
 
@@ -42,11 +44,24 @@ test('#findInputByLabel finds the input by the label text', function(assert) {
   let label;
   let input;
 
-  visit('/');
   andThen(function() {
     label = findLabelByText('Name');
     input = findInputByLabel(label);
 
     assert.equal('John Doe', input.val(), 'expected John Doe to be the input value');
   });
+});
+
+test('#findByAutoId find a button with autoId', (assert) => {
+  assert.expect(1);
+
+  let button = findByAutoId('first-target-btn');
+  assert.equal(button.length, 1);
+});
+
+test('#findInputByName find input by name', (assert) => {
+  assert.expect(1);
+
+  let input = findInputByName('node-2-input');
+  assert.equal(input.val(), 'John Doe');
 });
